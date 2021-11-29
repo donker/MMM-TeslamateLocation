@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "../app/App";
+import MapView from "../app/MapView";
 
 interface MainPageProps {
   height: string;
@@ -54,7 +54,7 @@ Module.register<MainPageProps>("MMM-TeslamateLocation", {
       sub.style.width = this.config.width;
       sub.style.height = this.config.height;
       mainDivs[0].appendChild(sub);
-      ReactDOM.render(<App zoomLevel={this.config.zoomLevel} />, sub);
+      ReactDOM.render(<MapView zoomLevel={this.config.zoomLevel} />, sub);
     }
   },
 

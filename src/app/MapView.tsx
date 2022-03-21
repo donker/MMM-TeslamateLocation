@@ -8,6 +8,7 @@ import { Map } from "leaflet";
 
 interface IMapViewProps {
   zoomLevel: number;
+  tileUrl: string;
 }
 
 interface IMapViewState {
@@ -63,10 +64,7 @@ export default class MapView extends Component<IMapViewProps, IMapViewState> {
         }}
         style={{ width: "100%", height: "100%" }}
       >
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <TileLayer attribution="" url={this.props.tileUrl} />
         <LeafletMarker
           position={[this.state.latitude, this.state.longitude]}
           draggable={false}

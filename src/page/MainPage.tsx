@@ -11,6 +11,7 @@ interface MainPageProps {
   mqttServerUser: string;
   mqttServerPassword: string;
   mqttTopic: string;
+  tileUrl: string;
 }
 
 Module.register<MainPageProps>("MMM-TeslamateLocation", {
@@ -22,7 +23,8 @@ Module.register<MainPageProps>("MMM-TeslamateLocation", {
     mqttServerPort: 1883,
     mqttServerUser: "",
     mqttServerPassword: "",
-    mqttTopic: "teslamate/cars/1/+"
+    mqttTopic: "teslamate/cars/1/+",
+    tileUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   },
 
   isLoaded: false,
@@ -54,7 +56,13 @@ Module.register<MainPageProps>("MMM-TeslamateLocation", {
       sub.style.width = this.config.width;
       sub.style.height = this.config.height;
       mainDivs[0].appendChild(sub);
-      ReactDOM.render(<MapView zoomLevel={this.config.zoomLevel} />, sub);
+      ReactDOM.render(
+        <MapView
+          zoomLevel={this.config.zoomLevel}
+          tileUrl={this.config.tileUrl}
+        />,
+        sub
+      );
     }
   },
 

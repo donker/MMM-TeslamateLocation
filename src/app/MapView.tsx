@@ -1,10 +1,5 @@
 import { Component, createRef, useRef } from "react";
-import {
-  MapContainer,
-  Marker as LeafletMarker,
-  TileLayer
-} from "react-leaflet";
-import { Map } from "leaflet";
+import Map from "./Map";
 
 interface IMapViewProps {
   zoomLevel: number;
@@ -12,64 +7,47 @@ interface IMapViewProps {
 }
 
 interface IMapViewState {
-  latitude: number;
-  longitude: number;
+  center: {
+    lat: number;
+    lng: number;
+  };
 }
 
 export default class MapView extends Component<IMapViewProps, IMapViewState> {
   constructor(props: IMapViewProps) {
     super(props);
     this.state = {
-      latitude: 0,
-      longitude: 0
+      center: {
+        lat: 0,
+        lng: 0
+      }
     };
     (window as any).setLatitude = (val: number) => {
-      this.setState({ latitude: val }, () => {
-        this.rerenderMap();
-      });
+      console.log("setLatitude", val);
+      this.setState({ center: { lat: val, lng: this.state.center.lng } });
     };
     (window as any).setLongitude = (val: number) => {
-      this.setState({ longitude: val }, () => {
-        this.rerenderMap();
-      });
+      console.log("setLongitude", val);
+      this.setState({ center: { lat: this.state.center.lat, lng: val } });
     };
-  }
-
-  refMap: Map | undefined;
-
-  rerenderMap() {
-    if (this.refMap && this.state.latitude != 0 && this.state.longitude != 0) {
-      this.refMap.setView(
-        [this.state.latitude, this.state.longitude],
-        this.props.zoomLevel
-      );
-    }
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      if (this.refMap) {
-        this.refMap.invalidateSize();
-      }
-    }, 2000);
+    // setTimeout(() => {
+    //   if (this.refMap) {
+    //     this.refMap.invalidateSize();
+    //   }
+    // }, 2000);
   }
 
   public render(): JSX.Element {
+    console.log("MapView.render", this.state);
     return (
-      <MapContainer
-        center={[this.state.latitude, this.state.longitude]}
+      <Map
+        center={this.state.center}
         zoom={this.props.zoomLevel}
-        whenCreated={(mapInstance) => {
-          this.refMap = mapInstance;
-        }}
-        style={{ width: "100%", height: "100%" }}
-      >
-        <TileLayer attribution="" url={this.props.tileUrl} />
-        <LeafletMarker
-          position={[this.state.latitude, this.state.longitude]}
-          draggable={false}
-        ></LeafletMarker>
-      </MapContainer>
+        tileUrl={this.props.tileUrl}
+      />
     );
   }
 }

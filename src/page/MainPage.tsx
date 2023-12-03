@@ -18,7 +18,7 @@ Module.register<MainPageProps>("MMM-TeslamateLocation", {
   defaults: {
     height: "300px",
     width: "100%",
-    zoomLevel: 20,
+    zoomLevel: 17,
     mqttServerAddress: "",
     mqttServerPort: 1883,
     mqttServerUser: "",
